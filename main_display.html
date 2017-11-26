@@ -10,7 +10,7 @@
             attribute vec4 vColor;
             attribute vec2 vTexCoords;
 
-            uniform vec4 uLight_position; // assumed to be in eye coordinates. 
+            uniform vec4 uLight_position; // assumed to be in eye coordinates.
             uniform mat4 uProjection;
             uniform mat4 uModel_view;
 
@@ -45,7 +45,7 @@
             varying vec2 texCoord;
             varying vec4 color;
             varying float yval;
-            
+
             // incoming uniform values
             uniform sampler2D uTexture;
             uniform vec4  uColor;
@@ -53,12 +53,12 @@
             uniform vec4  uAmbient_product, uDiffuse_product, uSpecular_product;
             uniform float uShininess;
             uniform int uColorMode;
-                  
+
 
             void main()
             {
                 vec4 myColor;
-        
+
                 if(uColorMode==0){
                     myColor = color;
                 } else if(uColorMode==1){
@@ -67,7 +67,7 @@
                     myColor = uColor;
                 } else if(uColorMode==3){
                 myColor = vec4(0.0, 0.0, 0.0, 1);
-            
+
                 if (yval == 0.0) {
             myColor = vec4(0.0, 0.0, 1.0, 1.0);
 
@@ -95,9 +95,9 @@
             }else if (yval >= .8 && yval <= 1.0) {
             myColor = vec4(1.0, 1.0, 1.0, 1.0);
 
-            }                
+            }
         }
-                
+
             // Normalize the input lighting vectors
             vec3 N = normalize(fN);
             vec3 E = normalize(fE);
@@ -127,7 +127,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <script type="text/javascript" src="Common/webgl-utils.js"></script>
         <script type="text/javascript" src="Common/initShaders.js"></script>
-        <script type="text/javascript" src="Common/eventHandlers.js"></script> 
+        <script type="text/javascript" src="Common/eventHandlers.js"></script>
         <script type="text/javascript" src="Common/MV.js"></script>
         <script type="text/javascript" src="Common/MatrixStack.js"></script>
         <script type="text/javascript" src="Shapes/Cube.js"></script>
@@ -145,6 +145,7 @@
         <script type="text/javascript" src="textures/RandomGray.js"></script>
         <script type="text/javascript" src="textures/Stripes.js"></script>
         <script type="text/javascript" src="textures/ImageTexture.js"></script>
+        <script type="text/javascript" src="Shapes/Room1.js"></script>
         <script type="text/javascript" src="render_scene.js"></script>
 
 
@@ -155,7 +156,7 @@
         <table>
             <tr>
                 <td>
-                    <canvas id="gl-canvas" width="512" height="512" oncontextmenu="return false;">   
+                    <canvas id="gl-canvas" width="512" height="512" oncontextmenu="return false;">
                         Oops ... your browser doesn't support the HTML5 canvas element
                     </canvas>
 
@@ -165,26 +166,26 @@
                     <div style = "background-color: LightGray">
                         <p> Keyboard Controls:</p>
                         <ul>
-                            <li>[r] ........ reset parameters</li> 
-                            <li>[q/a] ........ move forward/backward</li> 
-                            <li>[w/e] ........ turn left/right</li> 
-                            <li>[s/d] ........ turn up/down</li> 
-                            <li>[x/c] ........ roll left/right</li> 
+                            <li>[r] ........ reset parameters</li>
+                            <li>[q/a] ........ move forward/backward</li>
+                            <li>[w/e] ........ turn left/right</li>
+                            <li>[s/d] ........ turn up/down</li>
+                            <li>[x/c] ........ roll left/right</li>
                         </ul>
                         <p> Mouse Controls:</p>
                         <ul>
-                            <li>[Right Mouse drag] ... pan up/down/left/right</li> 
-                            <li>[Middle Mouse drag] .. zoom in/out</li> 
-                            <li>[Middle Mouse wheel] . zoom in/out</li> 
-                            <li>[Left Mouse drag] .... tumble about origin</li> 
+                            <li>[Right Mouse drag] ... pan up/down/left/right</li>
+                            <li>[Middle Mouse drag] .. zoom in/out</li>
+                            <li>[Middle Mouse wheel] . zoom in/out</li>
+                            <li>[Left Mouse drag] .... tumble about origin</li>
                         </ul> </div>
                     <div id="keypress"><b>Key pressed:</b> </div>
                     <div id="mouseAction"><b>Action:</b> </div>
-                    <div id="mouseState"><b>Mouse State:</b></div>  
+                    <div id="mouseState"><b>Mouse State:</b></div>
                 </td> </tr>
         </table>
-        
+
         <p>light angle about y axis: 0% <input id ="slider" type="range" min="0" max="360" step="20" value="0" /> 100% <p>
-        
+
     </body>
 </html>
