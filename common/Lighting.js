@@ -1,8 +1,8 @@
-/* 
- * Contains the lighting and material  parameters and sets up 
- * uniform variables for these parameters. 
- * Note: If you want to use different material properties for different objects, you 
- * need to split these parameters into separate lighting and material parameterss (e.g. have a 
+/*
+ * Contains the lighting and material  parameters and sets up
+ * uniform variables for these parameters.
+ * Note: If you want to use different material properties for different objects, you
+ * need to split these parameters into separate lighting and material parameterss (e.g. have a
  * Lighting.js and a Material,js)  They are kept together here for simplicity.
  */
 
@@ -16,23 +16,23 @@ var uShininess;
 var lightTheta=0;
 
 function Lighting() {
-    // Important:  These light coordinates are in World Coordinates. 
-    //             Before sending them to the vertex shader, we need 
-    //             to convert to eye coordinates. This is done in the render method. 
+    // Important:  These light coordinates are in World Coordinates.
+    //             Before sending them to the vertex shader, we need
+    //             to convert to eye coordinates. This is done in the render method.
     this.light_position = vec4(4, 8, 4, 1);
 
     // Light colors all set to white at the moment
     this.ambientColor = vec4(1.0, 1.0, 1.0, 1.0);
     this.diffuseColor = vec4(1.0, 1.0, 1.0, 1.0);
-    this.specularColor = vec4(1.0, 1.0, 1.0, 1.0);
+    this.specularColor = vec4(2.0, 2.0, 2.0, 1.0);
 
-    this.intensity = 1.0;
+    this.intensity = 0.8;
 
     // These are really material properties and belong with each individual object but
     // for now we will lump them in here and they will apply to all objects.
     this.ka = 0.2;
     this.kd = 1.0;
-    this.ks = 0.8;
+    this.ks = 0.7;
     this.shininess = 50.0;
 }
 
@@ -67,5 +67,3 @@ Lighting.prototype.setUp = function () {
     uShininess = gl.getUniformLocation(program, "uShininess");
     gl.uniform1f(uShininess, this.shininess);
 };
-
-
