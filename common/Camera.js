@@ -11,13 +11,13 @@ function Camera() {
     this.zFar = 500;         // camera's near plane
 
 // Camera *initial* location and orientation parameters
-    this.eye_start = vec4([0, 3, 15, 1]); // initial camera location (needed for reseting)   
+    this.eye_start = vec4([0, 3, -1, 1]); // initial camera location (needed for reseting)
     this.VPN = vec4([0, 0, 1, 0]);  // used to initialize uvn
-    this.VUP = vec4([0, 1, 0, 0]);  // used to initialize uvn  
+    this.VUP = vec4([0, 1, 0, 0]);  // used to initialize uvn
 
 // Current camera location and orientation parameters
     this.eye = vec4(this.eye_start);     // camera location
-    this.viewRotation;  // rotational part of matrix that transforms between World and Camera coord   
+    this.viewRotation;  // rotational part of matrix that transforms between World and Camera coord
     this.calcUVN();  // initializes viewRotation
 
 
@@ -48,21 +48,21 @@ Camera.prototype.calcUVN = function () {
 };
 
 /**
- * Calculate the camera's view matrix given the 
+ * Calculate the camera's view matrix given the
  * current eye and viewRotation
  * @return view matrix (mat4)
  */
 Camera.prototype.calcViewMat = function () {
     var mv = mat4(1);  // identity - placeholder only
-    var eyeTranslate = translate(-this.eye[0], -this.eye[1],-this.eye[2]);
+    var eyeTranslate = translate(-this.eye[0], -this.eye[1], -this.eye[2]);
     mv = mult(this.viewRotation, eyeTranslate);
     mv.matrix = true;
 
     return mv;
 };
 
-/** 
- * Calculate the camera's projection matrix. Here we 
+/**
+ * Calculate the camera's projection matrix. Here we
  * use a perspective projection.
  * @return the projection matrix
  */
@@ -72,7 +72,7 @@ Camera.prototype.calcProjectionMat = function () {
 };
 
 /**
- * Update the camera's eye and viewRotation matrices 
+ * Update the camera's eye and viewRotation matrices
  * based on the user's mouse actions
  * @return none
  */
@@ -80,17 +80,17 @@ Camera.prototype.motion = function () {
 
     switch (mouseState.action) {
         case mouseState.actionChoice.TUMBLE:  // left mouse button
-            // amount of rotation around axes 
-            var dy = -0.05 * mouseState.delx;  // angle around y due to mouse drag along x
-            var dx = -0.05 * mouseState.dely;  // angle around x due to mouse drag along y
+            // amount of rotation around axes
+            var dx = -0.01 * mouseState.dely;  // angle around y due to mouse drag along x
+            var dy = -0.01 * mouseState.delx;  // angle around x due to mouse drag along y
 
             var ry = rotateY(10 * dy);  // rotation matrix around y
             var rx = rotateX(10 * dx);  // rotation matrix around x
 
-//          TO DO: NEED TO IMPLEMENT TUMBLE FUNCTION
-            this.tumble(rx, ry);   //  <----  NEED TO IMPLEMENT THIS FUNCTION BELOW!!!
-            mouseState.startx = mouseState.x;
-            mouseState.starty = mouseState.y;
+            this.tumble(rx, ry);
+            //this.fpsCont(dx, dy);
+            //mouseState.startx = mouseState.x;
+            //mouseState.starty = mouseState.y;
             break;
         case mouseState.actionChoice.TRACK:  // PAN   - right mouse button
             var dx = -0.05 * mouseState.delx; // amount to pan along x
@@ -98,7 +98,7 @@ Camera.prototype.motion = function () {
             //  TO DO: NEED TO IMPLEMENT HERE
             var an = scale(-dy * .5, this.viewRotation[1]);
             var an2 = scale(-dx * .5, this.viewRotation[0]);
-            an2[1]= -an2[1];
+            an2[1] = -an2[1];
             this.eye = subtract(this.eye, an);
             this.eye = subtract(this.eye, an2);
             mouseState.startx = mouseState.x;
@@ -113,93 +113,71 @@ Camera.prototype.motion = function () {
             mouseState.startx = mouseState.x;
             mouseState.starty = mouseState.y;
             break;
+        case mouseState.actionChoice.FPSCONT:
+            var dx = -0.05 * mouseState.delx;  // angle around y due to mouse drag along x
+            var dy = -0.05 * mouseState.dely;  // angle around x due to mouse drag along y
+            this.fpsCont(dx, dy);   //  <----  NEED TO IMPLEMENT THIS FUNCTION BELOW!!!
+
+            break;
         default:
             console.log("unknown action: " + mouseState.action);
     }
 };
 
-/**
- * Rotate about the world coordinate system about y (left/right mouse drag) and/or 
- * about a line parallel to the camera's x-axis and going through the WCS origin 
- * (up/down mouse drag).
- * @param {mat4} rx  rotation matrix around x
- * @param {mat4} ry  rotation matrix around y
- * @return none
- */
-Camera.prototype.tumble = function (rx, ry) {
-    // TO DO:  IMPLEMENT THIS FUNCTION
-    // We want to rotate about the world coordinate system along a direction parallel to the
-    // camera's x axis. We first determine the coordinates of the WCS origin expressed in the eye coordinates.
-    // We then translate this point to the camera (origin in camera coordinates) and do a rotation about x.
-    // We then translate back. The result is then composed with the view matrix to give a new view matrix.
-    //  When done, should have new value for eye and viewRotation
 
-    // DO THIS CONTROL LAST - IT IS THE MOST DIFFICULT PART
+Camera.prototype.tumble = function (rx, ry) {
+
     var view = this.calcViewMat();  // current view matrix
-    
-    var tumblePoint = vec4(0, 0, 0, 1);
-    var tumblePointX = mult(view, tumblePoint);
+
+    var tumblePoint = mult(view, vec4(0, 0, 0, 1));
+    var tumblePointX = mult(view, vec4(0, 0, 0, 1));
 
     var matA = mult(translate(tumblePoint[0], tumblePoint[1], tumblePoint[2]), (mult(ry, translate(-tumblePoint[0], -tumblePoint[1], -tumblePoint[2]))));
     var matB = mult(translate(tumblePointX[0], tumblePointX[1], tumblePointX[2]), (mult(rx, translate(-tumblePointX[0], -tumblePointX[1], -tumblePointX[2]))));
 
     var viewNew = mult(matB, mult(view, matA));
-   
+
     this.viewRotation = mat4Copy(viewNew);
     this.viewRotation[0][3] = 0;
     this.viewRotation[1][3] = 0;
     this.viewRotation[2][3] = 0;
-    this.viewRotation[3][3] = 1;   
-    
-    var rotInverse = transpose(this.viewRotation);
+    this.viewRotation[3][3] = 1;
 
-    var final = (mult(rotInverse,viewNew));
-    
-    this.eye = vec4(-final[0][3],-final[1][3],-final[2][3],1);
-    
-// need to get eye position back
-    //  Here, rotInverse is the inverse of the rotational part of the view matrix.
-    //  eye = -rotInverse*view*origin  -> this gives the location of the WCS origin in the eye coordinates
+    //var rotInverse = transpose(this.viewRotation);
+    //var final = (mult(rotInverse, viewNew));
+    //this.eye = vec4(-final[0][3], -final[1][3], -final[2][3], 1);
+
+};
+
+Camera.prototype.fpsCont = function (rx, ry) {
+    this.viewRotation = mult(rotateY(rx), this.viewRotation);
+    this.viewRotation = mult(rotateX(ry), this.viewRotation);
 };
 
 Camera.prototype.keyAction = function (key) {
-    var alpha = 1.0;  // used to control the amount of a turn during the flythrough 
+    var alpha = 1.0;  // used to control the amount of a turn during the flythrough
     switch (key) {     // different keys should be used because these do thing sin browser
-        case 'W':  // turn right - this is implemented
-            console.log("turn right");
-            this.viewRotation = mult(rotateY(alpha), this.viewRotation);
+        case 'A':  // move left
+            console.log("move left");
+            var an2 = scale(-1, this.viewRotation[0]);
+            an2[1] = -an2[1];
+            this.eye = add(this.eye, an2);
             break;
-        case 'E':   // turn left
-            console.log("turn left");
-            this.viewRotation = mult(rotateY(-alpha), this.viewRotation);
+        case 'D':  // move right
+            console.log("move right")
+            var an2 = scale(-1, this.viewRotation[0]);
+            an2[1] = -an2[1];
+            this.eye = subtract(this.eye, an2);
             break;
-        case 'S':  // turn up   
-            console.log(" turn up");
-            this.viewRotation = mult(rotateX(-alpha), this.viewRotation);
-            break;
-        case 'D':  // turn down
-            console.log("turn down");
-            this.viewRotation = mult(rotateX(alpha), this.viewRotation);
-            break;
-        case 'X':  // bank right
-            console.log("bank right");
-            this.viewRotation = mult(rotateZ(alpha), this.viewRotation);
-            break;
-        case 'C':  // bank left
-            console.log("bank left");
-            this.viewRotation = mult(rotateZ(-alpha), this.viewRotation);
-            break;
-        case 'Q':  // move forward
+        case 'W':  // move forward
             console.log("move forward");
             var an = scale(-1, this.viewRotation[2]);
-            an[2]= -an[2];
-            this.eye = subtract(this.eye, an);
+            this.eye = add(this.eye, an);
             break;
-        case 'A':  //  move backward
+        case 'S':  //  move backward
             console.log("move backward");
             var an = scale(-1, this.viewRotation[2]);
-            an[2]= -an[2];
-            this.eye = add(an, this.eye);
+            this.eye = subtract(this.eye, an);
             break;
         case 'R':  //  reset
             console.log("reset");

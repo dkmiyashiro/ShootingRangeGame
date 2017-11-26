@@ -3,7 +3,7 @@
 var canvas;       // HTML 5 canvas
 var gl;           // webgl graphics context
 
-var vPosition;    // shader variable attrib location for vertices 
+var vPosition;    // shader variable attrib location for vertices
 var vColor;       // shader variable attrib location for color
 var vNormal;
 var uColor;       // shader uniform variable location for color
@@ -26,6 +26,7 @@ var lighting = new Lighting();
 var camera = new Camera();
 var stack = new MatrixStack();
 
+var room1 = new Room1();
 
 window.onload = function init()
 {
@@ -33,6 +34,7 @@ window.onload = function init()
     //set Event Handlers
     setKeyEventHandler();
     setMouseEventHandler();
+    setPointerLockEventHandler();
 
     canvas = document.getElementById("gl-canvas");
 
@@ -52,7 +54,7 @@ window.onload = function init()
 
     shaderSetup();
 
-    Shapes.initShapes();  // create the primitive and other shapes       
+    Shapes.initShapes();  // create the primitive and other shapes
 
 
     checkerboard = new Checkerboard();
@@ -61,7 +63,7 @@ window.onload = function init()
     stripes = new Stripes();
 
     lighting.setUp();
-    
+
     render();
 };
 
@@ -88,7 +90,7 @@ function render()
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    var projMat = camera.calcProjectionMat();   // Projection matrix  
+    var projMat = camera.calcProjectionMat();   // Projection matrix
     gl.uniformMatrix4fv(uProjection, false, flatten(projMat));
 
     var viewMat = camera.calcViewMat();   // View matrix
@@ -96,33 +98,44 @@ function render()
     var newLight = mult(viewMat, lighting.light_position);
     gl.uniform4fv(uLight_position, newLight);
 
-    stack.clear();
-    
-    stack.push();
-    stack.multiply(translate(0,-3,-5,1))
-    stack.multiply(rotateY(shitangle));
-    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
-    gl.uniform4fv(uColor, vec4(0.0, 1.0, 1.0, 1.0));  // set color to green
-    Shapes.drawPrimitive(Shapes.cylinder);
-    stack.pop();
-    
-    
-    stack.multiply(viewMat);
-    
-    gl.uniform4fv(uColor, vec4(1.0, 1.0, 0.0, 1.0));
-    imageTexture.activate();
-     gl.uniform1i(uColorMode, 1);
-    
-    stack.push();
-    stack.multiply(rotateY(shitangle));
-    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
-    gl.uniform4fv(uColor, vec4(0.0, 1.0, 1.0, 1.0));  // set color to green
-    Shapes.drawPrimitive(Shapes.cylinder);
-    stack.pop();
-    
-    lighting.draw();
-    
-    window.requestAnimFrame(render);
-    
-}
 
+    gl.uniform4fv(uColor, vec4(0.41, 0.41, 0.41, 1.0));
+
+
+
+
+
+    stack.clear();
+
+    /*
+    stack.push();
+    stack.multiply(translate(.4,-.4,-1,1));
+    stack.multiply(rotateY(-10));
+    stack.multiply(scalem(0.1,0.1,0.1,1));
+    Gun.draw(0);
+    stack.pop();
+    */
+
+    stack.multiply(viewMat);
+
+    imageTexture.activate();
+    gl.uniform1i(uColorMode, 2);
+
+    stack.push();
+    stack.multiply(rotateY(shitangle));
+    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
+    gl.uniform4fv(uColor, vec4(1.0, 1.0, 1.0, 1.0));  // set color to green
+    Shapes.drawPrimitive(Shapes.cylinder);
+    stack.pop();
+
+
+ //gl.uniform1i(uColorMode, 2);
+
+    room1.draw();
+
+
+    lighting.draw();
+
+    window.requestAnimFrame(render);
+
+}
