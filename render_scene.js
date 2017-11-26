@@ -81,6 +81,7 @@ function shaderSetup() {
 
 function render()
 {
+    camera.movement();
 
     if(shitangle<360){
         shitangle+=1;

@@ -1,4 +1,4 @@
-/* global mouseState */
+/* global mouseState, forW, bacS, lefA, rigD */
 
 /**
  * Contains all of the parameters needed for controlling the camera.
@@ -143,10 +143,6 @@ Camera.prototype.tumble = function (rx, ry) {
     this.viewRotation[2][3] = 0;
     this.viewRotation[3][3] = 1;
 
-    //var rotInverse = transpose(this.viewRotation);
-    //var final = (mult(rotInverse, viewNew));
-    //this.eye = vec4(-final[0][3], -final[1][3], -final[2][3], 1);
-
 };
 
 Camera.prototype.fpsCont = function (rx, ry) {
@@ -154,36 +150,22 @@ Camera.prototype.fpsCont = function (rx, ry) {
     this.viewRotation = mult(rotateX(ry), this.viewRotation);
 };
 
-Camera.prototype.keyAction = function (key) {
-    var alpha = 1.0;  // used to control the amount of a turn during the flythrough
-    switch (key) {     // different keys should be used because these do thing sin browser
-        case 'A':  // move left
-            console.log("move left");
-            var an2 = scale(-1, this.viewRotation[0]);
-            //an2[1] = 0;
-            this.eye = add(this.eye, an2);
-            break;
-        case 'D':  // move right
-            console.log("move right");
-            var an2 = scale(-1, this.viewRotation[0]);
-            //an2[1] = 0;
-            this.eye = subtract(this.eye, an2);
-            break;
-        case 'W':  // move forward
-            console.log("move forward");
-            var an = scale(-1, this.viewRotation[2]);
-            an[1]=0;
-            this.eye = add(this.eye, an);
-            break;
-        case 'S':  //  move backward
-            console.log("move backward");
-            var an = scale(-1, this.viewRotation[2]);
-            an[1]=0;
-            this.eye = subtract(this.eye, an);
-            break;
-        case 'R':  //  reset
-            console.log("reset");
-            this.reset();
-            break;
-    }
+Camera.prototype.movement = function () {
+    var forwardDirection = this.viewRotation[2];
+    var forwardScale = 0.0;
+    forwardScale += bacS ? 0.1 : 0.0;
+    forwardScale -= forW ? 0.1 : 0.0;
+    var addMe1 = scale(forwardScale, forwardDirection);
+
+    var strafeDirection = this.viewRotation[0];
+    var strafeScale = 0.0;
+    strafeScale += rigD ? 0.1 : 0.0;
+    strafeScale -= lefA ? 0.1 : 0.0;
+    var addMe2 = scale(strafeScale, strafeDirection);
+
+    addMe1[1]=0; //makes sure the y values don't change
+    addMe2[1]=0;
+
+    this.eye = add(this.eye, addMe1);
+    this.eye = add(this.eye, addMe2);
 };
