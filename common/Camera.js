@@ -87,7 +87,7 @@ Camera.prototype.motion = function () {
             var ry = rotateY(10 * dy);  // rotation matrix around y
             var rx = rotateX(10 * dx);  // rotation matrix around x
 
-            this.tumble(rx, ry);
+            this.tumble(rx, ry);   //  <----  NEED TO IMPLEMENT THIS FUNCTION BELOW!!!
             //this.fpsCont(dx, dy);
             //mouseState.startx = mouseState.x;
             //mouseState.starty = mouseState.y;
@@ -160,23 +160,25 @@ Camera.prototype.keyAction = function (key) {
         case 'A':  // move left
             console.log("move left");
             var an2 = scale(-1, this.viewRotation[0]);
-            an2[1] = -an2[1];
+            //an2[1] = 0;
             this.eye = add(this.eye, an2);
             break;
         case 'D':  // move right
-            console.log("move right")
+            console.log("move right");
             var an2 = scale(-1, this.viewRotation[0]);
-            an2[1] = -an2[1];
+            //an2[1] = 0;
             this.eye = subtract(this.eye, an2);
             break;
         case 'W':  // move forward
             console.log("move forward");
             var an = scale(-1, this.viewRotation[2]);
+            an[1]=0;
             this.eye = add(this.eye, an);
             break;
         case 'S':  //  move backward
             console.log("move backward");
             var an = scale(-1, this.viewRotation[2]);
+            an[1]=0;
             this.eye = subtract(this.eye, an);
             break;
         case 'R':  //  reset
