@@ -13,7 +13,7 @@ Room1.prototype.draw = function(){
 
 Room1.prototype.drawFloor = function(){
     stack.push();
-    stack.multiply(scalem(25, .5, 20));
+    stack.multiply(scalem(25, .01, 20));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();

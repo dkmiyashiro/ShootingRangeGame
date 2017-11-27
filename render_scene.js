@@ -124,9 +124,10 @@ function render()
 
     stack.push();
     stack.multiply(rotateY(shitangle));
+    stack.multiply(translate(0,.505,0));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     gl.uniform4fv(uColor, vec4(1.0, 1.0, 1.0, 1.0));  // set color to green
-    Shapes.drawPrimitive(Shapes.cylinder);
+    Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
 
 
