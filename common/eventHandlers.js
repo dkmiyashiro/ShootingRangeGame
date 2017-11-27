@@ -5,7 +5,10 @@
  * @type {type}
  */
 var mouseLockBool = false;
-var forW = false, lefA = false, rigD = false, bacS = false;
+var forW = false, lefA = false, rigD = false, bacS = false, shifRun = false;
+
+var placeholdX = 0;
+var placeholdY = 0;
 
 var havePointerLock = 'pointerLockElement' in document ||
         'mozPointerLockElement' in document ||
@@ -130,24 +133,12 @@ function setPointerLockEventHandler() {
 
     moveCallback = function (e) {
         mouseState.action = mouseState.actionChoice.TUMBLE;
-        // mouseState.x = e.clientX;
-        //mouseState.y = e.clientY;
+
         mouseState.delx = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
         mouseState.dely = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
-        /*
-         if(mouseState.delx>256){
-         mouseState.delx = 255;
-         } else if(mouseState.delx<-256){
-         mouseState.delx=-255;
-         }
-         if(mouseState.dely>256){
-         mouseState.dely = 255;
-         } else if(mouseState.dely<-256){
-         mouseState.dely=-255;
-         }
-         */
+
         camera.motion();
-        console.log(e.movementX + " " + e.movementY);
+        console.log(mouseState.delx + " " + mouseState.dely);
     };
 
     document.exitPointerLock = document.exitPointerLock ||
@@ -178,16 +169,19 @@ function setKeyEventHandler() {
         document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
         if (c === "w" || c === "W") {
             forW = true;
-            console.log("forW true")
+            console.log("forW true");
         } else if (c === "s" || c === "S") {
             bacS = true;
-            console.log("bacS true")
+            console.log("bacS true");
         } else if (c === "a" || c === "A") {
             lefA = true;
-            console.log("lefA true")
+            console.log("lefA true");
         } else if (c === "d" || c === "D") {
             rigD = true;
-            console.log("rigD true")
+            console.log("rigD true");
+        } else if (e.keyCode === 16){
+            shifRun = true;
+            console.log("running!");
         }
     };
 
@@ -197,16 +191,19 @@ function setKeyEventHandler() {
         document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
         if (c === "w" || c === "W") {
             forW = false;
-            console.log("forW false")
+            console.log("forW false");
         } else if (c === "s" || c === "S") {
             bacS = false;
-            console.log("bacS false")
+            console.log("bacS false");
         } else if (c === "a" || c === "A") {
             lefA = false;
-            console.log("lefA false")
+            console.log("lefA false");
         } else if (c === "d" || c === "D") {
             rigD = false;
-            console.log("rigD false")
+            console.log("rigD false");
+        } else if (e.keyCode === 16) {
+            shifRun = false;
+            console.log("walking?");
         }
     };
 

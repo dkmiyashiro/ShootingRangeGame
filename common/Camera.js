@@ -1,4 +1,4 @@
-/* global mouseState, forW, bacS, lefA, rigD */
+/* global mouseState, forW, bacS, lefA, rigD, shifRun */
 
 /**
  * Contains all of the parameters needed for controlling the camera.
@@ -20,6 +20,7 @@ function Camera() {
     this.viewRotation;  // rotational part of matrix that transforms between World and Camera coord
     this.calcUVN();  // initializes viewRotation
 
+    this.camBoundBox = new CollisionBox(vec3(0, 10, 1), 1, 1, 1);
 
 }
 
@@ -113,12 +114,6 @@ Camera.prototype.motion = function () {
             mouseState.startx = mouseState.x;
             mouseState.starty = mouseState.y;
             break;
-        case mouseState.actionChoice.FPSCONT:
-            var dx = -0.05 * mouseState.delx;  // angle around y due to mouse drag along x
-            var dy = -0.05 * mouseState.dely;  // angle around x due to mouse drag along y
-            this.fpsCont(dx, dy);   //  <----  NEED TO IMPLEMENT THIS FUNCTION BELOW!!!
-
-            break;
         default:
             console.log("unknown action: " + mouseState.action);
     }
@@ -145,26 +140,24 @@ Camera.prototype.tumble = function (rx, ry) {
 
 };
 
-Camera.prototype.fpsCont = function (rx, ry) {
-    this.viewRotation = mult(rotateY(rx), this.viewRotation);
-    this.viewRotation = mult(rotateX(ry), this.viewRotation);
-};
-
 Camera.prototype.movement = function () {
+
+    var speed = shifRun ? 1.7 : 1.0;
+
     var forwardDirection = this.viewRotation[2];
     var forwardScale = 0.0;
     forwardScale += bacS ? 0.1 : 0.0;
     forwardScale -= forW ? 0.1 : 0.0;
-    var addMe1 = scale(forwardScale, forwardDirection);
+    var addMe1 = scale(forwardScale*speed, forwardDirection);
 
     var strafeDirection = this.viewRotation[0];
     var strafeScale = 0.0;
     strafeScale += rigD ? 0.1 : 0.0;
     strafeScale -= lefA ? 0.1 : 0.0;
-    var addMe2 = scale(strafeScale, strafeDirection);
+    var addMe2 = scale(strafeScale*speed, strafeDirection);
 
-    addMe1[1]=0; //makes sure the y values don't change
-    addMe2[1]=0;
+    addMe1[1] = 0; //makes sure the y values don't change
+    addMe2[1] = 0;
 
     this.eye = add(this.eye, addMe1);
     this.eye = add(this.eye, addMe2);
