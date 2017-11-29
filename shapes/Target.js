@@ -13,9 +13,10 @@ Target.prototype.draw = function () {
         this.drawIdle();
     } else if (this.hp < 50 && this.hp > 0) {
         this.drawDamaged();
-    }
-
-}
+    } else if(this.hp<=0){
+        this.destroy();
+        }
+};
 
 Target.prototype.drawIdle = function () {
     stack.push();
@@ -25,7 +26,7 @@ Target.prototype.drawIdle = function () {
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cylinder);
     stack.pop();
-}
+};
 
 Target.prototype.drawDamaged = function () {
     stack.push();
@@ -35,8 +36,16 @@ Target.prototype.drawDamaged = function () {
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cylinder);
     stack.pop();
-}
+};
 
 Target.prototype.destroy = function () {
-
+  /*
+    stack.push();
+    stack.multiply(translate(this.x, this.y, this.z));
+    stack.multiply(scalem(1, 1, .2));
+    stack.multiply(rotateX(-90));
+    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
+    Shapes.drawPrimitive(Shapes.cylinder);
+    stack.pop();
+*/
 }

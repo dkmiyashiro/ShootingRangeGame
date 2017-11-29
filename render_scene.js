@@ -106,7 +106,7 @@ function render()
 
 
     gl.uniform4fv(uColor, vec4(0.41, 0.41, 0.41, 1.0));
-    
+
 
     stack.clear();
 
@@ -120,8 +120,6 @@ function render()
     stack.pop();
 
     stack.multiply(viewMat);
-
-
 
     stack.push();
     stack.multiply(rotateY(shitangle));
