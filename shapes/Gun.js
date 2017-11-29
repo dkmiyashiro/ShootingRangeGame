@@ -2,7 +2,6 @@
  All made by Dylan Miyashiro
  */
 
-
 /* global uModel_view, stack, gl, uColor, Shapes, recoilNum */
 
 var Trigger = {};
@@ -21,33 +20,36 @@ var Cartridge = {};
 var fired = false;
 var recoilAngle = 0;
 var fireFrames = 0;
+
+var muzzleFlash = new Lighting(vec4(0, -1, -2, 1), vec4(1.0, 1.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), 0.8);
 //Here are the main draw functions
 
 Gun.draw = function () {
     if (fired && fireFrames < 4) {
         fireFrames++;
+
         stack.push();
-        stack.multiply(translate(0,0,1,1));
-        stack.multiply(rotateX(5));
-        stack.multiply(translate(0,0,-1,1));
-        GunStat.draw(fireFrames*.5);
+        stack.multiply(translate(0, 0, 1, 1));
+        stack.multiply(rotateX(-5));
+        stack.multiply(translate(0, 0, -1, 1));
+        GunStat.draw(fireFrames * .5);
         stack.pop();
     } else if (fireFrames === 4) {
         fireFrames--;
         stack.push();
-        stack.multiply(translate(0,0,1,1));
-        stack.multiply(rotateX(-5));
-        stack.multiply(translate(0,0,-1,1));
-        GunStat.draw(fireFrames*.5);
+        stack.multiply(translate(0, 0, 1, 1));
+        stack.multiply(rotateX(5));
+        stack.multiply(translate(0, 0, -1, 1));
+        GunStat.draw(fireFrames * .5);
         stack.pop();
         fired = false;
     } else if (!fired && fireFrames < 4 && fireFrames > 0) {
         fireFrames--;
         stack.push();
-        stack.multiply(translate(0,0,1,1));
-        stack.multiply(rotateX(-5));
-        stack.multiply(translate(0,0,-1,1));
-        GunStat.draw(fireFrames*.5);
+        stack.multiply(translate(0, 0, 1, 1));
+        stack.multiply(rotateX(5));
+        stack.multiply(translate(0, 0, -1, 1));
+        GunStat.draw(fireFrames * .5);
         stack.pop();
     } else if (!fired && fireFrames === 0) {
         stack.push();
@@ -143,8 +145,6 @@ Bullet.draw = function (bz, ra) {
 
 //Below this are all of the separate pieces referened above to make up the
 //draw functions.
-
-
 
 function magBot() {
 

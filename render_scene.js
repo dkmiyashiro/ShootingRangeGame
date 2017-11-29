@@ -106,26 +106,22 @@ function render()
 
 
     gl.uniform4fv(uColor, vec4(0.41, 0.41, 0.41, 1.0));
-
-
-
-
+    
 
     stack.clear();
 
-    /*
+
     stack.push();
+    gl.uniform1i(uColorMode, 2);
     stack.multiply(translate(.4,-.4,-1,1));
     stack.multiply(rotateY(-10));
     stack.multiply(scalem(0.1,0.1,0.1,1));
     Gun.draw(0);
     stack.pop();
-    */
 
     stack.multiply(viewMat);
 
-    concrete.activate();
-    gl.uniform1i(uColorMode, 1);
+
 
     stack.push();
     stack.multiply(rotateY(shitangle));

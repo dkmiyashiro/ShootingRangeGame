@@ -1,10 +1,12 @@
-/* global stack */
+/* global stack, concrete */
 
 function BaseRoom(){
 }
 
-
 BaseRoom.prototype.draw = function () {
+    concrete.activate();
+    gl.uniform1i(uColorMode, 1);
+
     this.drawFloor();
     this.drawWalls();
 
