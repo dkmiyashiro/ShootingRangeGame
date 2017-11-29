@@ -14,9 +14,12 @@ var uModel_view;  //  shader uniform variable for model-view matrix
 var program;
 
 var checkerboard;
-var imageTexture;
+var milton;
+var target;
+var concrete;
 var randomgray;
 var stripes;
+
 var uTexture;
 var uColorMode;
 
@@ -58,7 +61,9 @@ window.onload = function init()
 
 
     checkerboard = new Checkerboard();
-    imageTexture = new ImageTexture("textures/milton.png");
+    milton = new ImageTexture("textures/milton.png");
+    concrete = new ImageTexture("textures/concrete.jpg");
+    target = new ImageTexture("textures/target.png");
     randomgray = new RandomGray();
     stripes = new Stripes();
 
@@ -119,8 +124,8 @@ function render()
 
     stack.multiply(viewMat);
 
-    imageTexture.activate();
-    gl.uniform1i(uColorMode, 2);
+    concrete.activate();
+    gl.uniform1i(uColorMode, 1);
 
     stack.push();
     stack.multiply(rotateY(shitangle));
@@ -129,7 +134,6 @@ function render()
     gl.uniform4fv(uColor, vec4(1.0, 1.0, 1.0, 1.0));  // set color to green
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
-
 
  //gl.uniform1i(uColorMode, 2);
 
