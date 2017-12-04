@@ -6,6 +6,8 @@ function Target(x, y, z) {
     this.hp = 100;
     this.frameCount = 0;
     this.heightFrameCount = 0;
+    this.o = vec3(this.x-1, this.y-1, this.z-.5)
+    this.hitbox = new CollisionBox(this.o,2,2,.2);
 }
 
 Target.prototype.draw = function () {

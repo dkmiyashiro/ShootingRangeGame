@@ -148,17 +148,29 @@ Camera.prototype.movement = function () {
     var forwardScale = 0.0;
     forwardScale += bacS ? 0.1 : 0.0;
     forwardScale -= forW ? 0.1 : 0.0;
-    var addMe1 = scale(forwardScale*speed, forwardDirection);
+    var addMe1 = scale(forwardScale * speed, forwardDirection);
 
     var strafeDirection = this.viewRotation[0];
     var strafeScale = 0.0;
     strafeScale += rigD ? 0.1 : 0.0;
     strafeScale -= lefA ? 0.1 : 0.0;
-    var addMe2 = scale(strafeScale*speed, strafeDirection);
+    var addMe2 = scale(strafeScale * speed, strafeDirection);
 
     addMe1[1] = 0; //makes sure the y values don't change
     addMe2[1] = 0;
 
     this.eye = add(this.eye, addMe1);
     this.eye = add(this.eye, addMe2);
+};
+
+Camera.prototype.fire = function (room) {
+    console.log("bang");
+    var farVec = add(this.viewRotation[2], this.eye);
+
+    var an = scale(-500, this.viewRotation[2]);
+    var nearVec = add(this.eye, an);
+
+    for (var i = 0; i < room.targets.length; i++) {
+        collideVec(nearVec, farVec, room.targets[i].hitbox);
+    }
 };
