@@ -1,54 +1,20 @@
-
-/* global stack, Shapes, uModel_view, gl, concrete, uColorMode */
-
-function Room1() {
+function TeleportRoom(z) {
     this.br = new BaseRoom();
-    this.tr = new TeleportRoom(-30);
-    this.light = new Lighting();
-    this.targets = [];
-    var t1 = new Target(-2, 2, -12);
-    var t2 = new Target(2, 2, -14);
-    this.targets.push(t1);
-    this.targets.push(t2);
-
+    this.z = z;
 }
 
-Room1.prototype.draw = function () {
+TeleportRoom.prototype.draw = function () {
 
     stack.push();
-    stack.multiply(translate(0, 0, -12.5));
-    stack.multiply(scalem(2, 1.0, 2.5));
+    stack.multiply(translate(0, 0, this.z+5));
     this.br.draw();
     stack.pop();
 
-    this.tr.draw();
-
-    this.drawBarriers();
     this.drawDoorWays();
-
-    target.activate();
-    gl.uniform1i(uColorMode, 1);
-
-    this.drawTargets();
 };
 
-Room1.prototype.drawBarriers = function () {
-    stack.push();
-    stack.multiply(translate(-6.5, 1.25, -17));
-    stack.multiply(scalem(7, 2.5, .5));
-    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
-    Shapes.drawPrimitive(Shapes.cube);
-    stack.pop();
 
-    stack.push();
-    stack.multiply(translate(6.5, 1.25, -13));
-    stack.multiply(scalem(7, 2.5, .5));
-    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
-    Shapes.drawPrimitive(Shapes.cube);
-    stack.pop();
-};
-
-Room1.prototype.drawDoorWays = function () {
+TeleportRoom.prototype.drawDoorWays = function () {
     stack.push();
     stack.multiply(translate(-5.75, 5, -25));
     stack.multiply(scalem(8.5, 10, .5));
@@ -92,12 +58,4 @@ Room1.prototype.drawDoorWays = function () {
     stack.pop();
 
 
-};
-
-Room1.prototype.drawTargets = function () {
-    if (this.targets.length > 0) {
-        for (var i = 0; i < this.targets.length; i++) {
-            this.targets[i].draw();
-        }
-    }
 };

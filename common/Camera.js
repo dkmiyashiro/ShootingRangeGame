@@ -164,13 +164,16 @@ Camera.prototype.movement = function () {
 };
 
 Camera.prototype.fire = function (room) {
-    console.log("bang");
-    var farVec = add(this.viewRotation[2], this.eye);
-
-    var an = scale(-500, this.viewRotation[2]);
-    var nearVec = add(this.eye, an);
-
     for (var i = 0; i < room.targets.length; i++) {
-        collideVec(nearVec, farVec, room.targets[i].hitbox);
+
+        if (collideSphere(this.eye, this.viewRotation[2], room.targets[i].hitbox)) {
+            room.targets[i].hit();
+            if (room.targets[i].destroyed) {
+                room.targets.splice(i, 1);
+            }
+        } else {
+            //console.log("miss "+i);
+        }
+        //console.log(room.targets[i]);
     }
 };
