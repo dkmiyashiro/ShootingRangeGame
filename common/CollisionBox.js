@@ -20,8 +20,6 @@ function collideSphere(camPos, dirVec, cbox) {
         console.log("collision detected !!!!");
         return true;
     } else {
-        console.log("sad, no collision");
-        console.log(D);
         return false;
     }
 }

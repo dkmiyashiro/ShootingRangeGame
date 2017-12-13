@@ -6,12 +6,12 @@ function Timer(arr) {
     this.m = 0;
     this.on = false;
     this.total = 0;
-    
+
     this.timeChecks = arr;
     this.timeChecksi = 0;
     this.timeIncrement = false;
-    
-    
+
+
     this.renderWindow = false;
 }
 
@@ -55,7 +55,6 @@ Timer.prototype.reset = function () {
 Timer.prototype.start = function () {
     if(!this.on){
     this.on = true;
-    console.log("timer started");
     timeKeeper = setInterval(this.activate.bind(this), 10);
     }
 };
@@ -74,7 +73,7 @@ Timer.prototype.activate = function () {
             this.s += 1;
         } else if (this.s === 60) {
             this.m += 1;
-            this.s = 0;  
+            this.s = 0;
         }
         this.ms = 0;
     }

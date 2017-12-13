@@ -45,9 +45,17 @@ Target.prototype.destroy = function () {
 };
 
 Target.prototype.hit = function () {
-    this.hp -= 50;
+    var dist = Math.pow(Math.pow(camera.eye[2]-this.z,2) + Math.pow(camera.eye[0]-this.x,2),.5);
+    this.hp -= (30+(Math.max(75-dist,0)));
+
     if (this.hp <= 0) {
         this.destroyed = true;
     }
-    console.log(this.hp);
+};
+
+Target.prototype.superhit = function () {
+    this.hp -= 1000;
+    if (this.hp <= 0) {
+        this.destroyed = true;
+    }
 };

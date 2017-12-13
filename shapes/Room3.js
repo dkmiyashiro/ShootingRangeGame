@@ -6,14 +6,24 @@ function Room3() {
     this.tr = new TeleportRoom(-25,3);
     this.str = new StartTeleportRoom(5);
 
-    this.cleared = false;
-
     this.targets = [];
+    this.hiddenTargets =[];
     var t1 = new Target(-2, 2, -14);
-    var t2 = new Target(2, 2, -16);
+    var t2 = new Target(2, 3, -20);
+    var t3 = new Target(-4, 2, -11);
+    var t4 = new Target(3, 4, -14);
+    var t5 = new Target(-3, 2, -17);
+    var t6 = new Target(0, 3, -6);
+    var t7 = new Target(-2, 2, -14);
+    var t8 = new Target(2, 2, -16);
     this.targets.push(t1);
-    this.targets.push(t2);
-
+    this.hiddenTargets.push(t2);
+    this.hiddenTargets.push(t3);
+    this.hiddenTargets.push(t4);
+    this.hiddenTargets.push(t5);
+    this.hiddenTargets.push(t6);
+    this.hiddenTargets.push(t7);
+    this.hiddenTargets.push(t8);
 }
 
 Room3.prototype.draw = function () {
@@ -27,7 +37,10 @@ Room3.prototype.draw = function () {
     this.tr.draw();
     this.str.draw();
 
-    this.drawBarriers();
+    if(!this.tr.cleared){
+      this.drawBarriers();
+    }
+
     this.drawDoorWays();
 
     target.activate();
@@ -38,18 +51,12 @@ Room3.prototype.draw = function () {
 
 Room3.prototype.drawBarriers = function () {
     stack.push();
-    stack.multiply(translate(-6.5, 1.25, -17));
-    stack.multiply(scalem(7, 2.5, .5));
+    stack.multiply(translate(0, 1, -5));
+    stack.multiply(scalem(25, 2, .5));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
 
-    stack.push();
-    stack.multiply(translate(6.5, 1.25, -13));
-    stack.multiply(scalem(7, 2.5, .5));
-    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
-    Shapes.drawPrimitive(Shapes.cube);
-    stack.pop();
 };
 
 Room3.prototype.drawDoorWays = function () {

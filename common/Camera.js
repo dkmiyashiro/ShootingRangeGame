@@ -162,22 +162,36 @@ Camera.prototype.movement = function () {
 };
 
 Camera.prototype.fire = function (room) {
+  var hitatall = false;
   if(started){
     for (var i = 0; i < room.targets.length; i++) {
         if (collideSphere(this.eye, this.viewRotation[2], room.targets[i].hitbox)) {
-            room.targets[i].hit();
+            hitatall = true;
+            if(supre){
+              room.targets[i].superhit();
+            }else{
+              room.targets[i].hit();
+            }
             if (room.targets[i].destroyed) {
                 room.targets.splice(i, 1);
             }
-            if(room.targets.length===0){
+            if(room ===room3&&room.targets.length===0&&room.hiddenTargets.length>0){
+                room.targets.push(room.hiddenTargets[0]);
+                room.hiddenTargets.splice(0,1);
+            } else if(room===room3&&room.targets.length===0&&room.hiddenTargets.length===0){
+                room.tr.cleared = true;
+            } else if(room.targets.length===0){
                 room.tr.cleared = true;
             }
           }
         }
-        console.log(this.eye);
+        if(!hitatall){
+          misses++;
+        }
       } else {
         if(collideSphere(this.eye, this.viewRotation[2], startCube)){
           started=true;
+          timer.start();
         }
       }
 };

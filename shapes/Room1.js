@@ -6,8 +6,6 @@ function Room1() {
     this.tr = new TeleportRoom(-25,1);
     this.str = new StartTeleportRoom(5);
 
-    this.cleared = false;
-
     this.targets = [];
     var t1 = new Target(-2, 2, -14);
     var t2 = new Target(2, 2, -16);

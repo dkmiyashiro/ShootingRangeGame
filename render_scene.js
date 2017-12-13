@@ -4,6 +4,8 @@ var canvas;       // HTML 5 canvas
 var gl;           // webgl graphics context
 
 var started = false;
+var supre = false;
+var misses =0;
 
 var vPosition;    // shader variable attrib location for vertices
 var vColor;       // shader variable attrib location for color
@@ -25,6 +27,7 @@ var stripes;
 var uTexture;
 var uColorMode;
 
+var timer = new Timer();
 var lighting = new Lighting();
 var camera = new Camera();
 var stack = new MatrixStack();
@@ -158,6 +161,7 @@ clearCheck = function(){
         if(-1<camera.eye[0]&&camera.eye[0]<1&&-32<camera.eye[2]&&camera.eye[2]<-28){
             camera.reset();
             started = false;
+            timer.pause();
             currentRoom = room2;
         }
         break;
@@ -166,9 +170,22 @@ clearCheck = function(){
         if(-1<camera.eye[0]&&camera.eye[0]<1&&-56<camera.eye[2]&&camera.eye[2]<-52){
             camera.reset();
             started = false;
+            timer.pause();
             currentRoom = room3;
           }
         break;
+
+        case room3:
+        if(-1<camera.eye[0]&&camera.eye[0]<1&&-32<camera.eye[2]&&camera.eye[2]<-28){
+            started = false;
+            timer.pause();
+            finished();
+          }
       }
     }
+}
+
+finished = function(){
+      var grade = 100 - (10*timer.m) - (0.01*Math.max(timer.s-17,0)) - (.5*misses);
+      document.getElementById("score").innerHTML = "Your score is: "+grade;
 }
