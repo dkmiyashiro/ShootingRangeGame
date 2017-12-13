@@ -18,7 +18,7 @@ function Lighting(lp, ac, dc, sc, i) {
     this.diffuseColor = dc||vec4(1.0, 1.0, 1.0, 1.0);
     this.specularColor = sc||vec4(2.0, 2.0, 2.0, 1.0);
 
-    this.intensity = i||0.8;
+    this.intensity = i||0.6;
 
     // These are really material properties and belong with each individual object but
     // for now we will lump them in here and they will apply to all objects.

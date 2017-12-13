@@ -11,7 +11,7 @@ function Camera() {
     this.zFar = 500;         // camera's near plane
 
 // Camera *initial* location and orientation parameters
-    this.eye_start = vec4([0, 3, -1, 1]); // initial camera location (needed for reseting)
+    this.eye_start = vec4([0, 3, 7, 1]); // initial camera location (needed for reseting)
     this.VPN = vec4([0, 0, 1, 0]);  // used to initialize uvn
     this.VUP = vec4([0, 1, 0, 0]);  // used to initialize uvn
 
@@ -142,7 +142,7 @@ Camera.prototype.tumble = function (rx, ry) {
 
 Camera.prototype.movement = function () {
 
-    var speed = shifRun ? 1.7 : 1.0;
+    var speed = shifRun ? 0.8 : 0.6;
 
     var forwardDirection = this.viewRotation[2];
     var forwardScale = 0.0;
@@ -164,13 +164,16 @@ Camera.prototype.movement = function () {
 };
 
 Camera.prototype.fire = function (room) {
-    console.log("bang");
-    var farVec = add(this.viewRotation[2], this.eye);
-
-    var an = scale(-500, this.viewRotation[2]);
-    var nearVec = add(this.eye, an);
-
     for (var i = 0; i < room.targets.length; i++) {
-        collideVec(nearVec, farVec, room.targets[i].hitbox);
+
+        if (collideSphere(this.eye, this.viewRotation[2], room.targets[i].hitbox)) {
+            room.targets[i].hit();
+            if (room.targets[i].destroyed) {
+                room.targets.splice(i, 1);
+            }
+        } else {
+            //console.log("miss "+i);
+        }
+        //console.log(room.targets[i]);
     }
 };
