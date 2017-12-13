@@ -1,6 +1,6 @@
 ///// CUBE DEFINTION
 /////
-///// Cube is defined to be centered at the origin of the coordinate reference system.
+///// Cube is defined to be centered at the origin of the coordinate reference system. 
 ///// Cube size is assumed to be 2.0 x 2.0 x 2.0 .
 
 ///// Generate 12 triangles: 36 vertices and 36 colors
@@ -26,7 +26,7 @@ function Cube() {
 
     // Local variables: unique vertices and colors.
     ////////////////////////////////////////////////////////////
-
+    
     var unique_vertices = [
         vec4(-.50, -.50, .50, 1.0),  // v0
         vec4(.50, -.50, .50, 1.0),   // v1
@@ -63,7 +63,7 @@ function Cube() {
 
     var face_normals = [
         vec4(0.0, 0.0, 1.0, 0.0),  // front
-        vec4(0.0, 0.0, -1.0, 0.0), // back
+        vec4(1.0, 0.0, -1.0, 0.0), // back
         vec4(-1.0, 0.0, 0.0, 0.0), // left
         vec4(1.0, 0.0, 0.0, 0.0),  // right
         vec4(0.0, 1.0, 0.0, 0.0),  // top

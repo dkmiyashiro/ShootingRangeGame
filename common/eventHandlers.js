@@ -1,4 +1,4 @@
-/* global lighting, camera, currentRoom */
+/* global lighting */
 
 /**
  *  Event handler methods. Stores the state of the mouse.
@@ -86,6 +86,11 @@ function setMouseEventHandler() {
 
 
     });
+    canvas.addEventListener("click", function (e) {
+        // console.log("mouse up");
+        fired = true;
+
+    });
     canvas.addEventListener("mousewheel", function (e) {
         mouseState.action = mouseState.actionChoice.DOLLY;
         mouseState.x = e.clientX;
@@ -96,13 +101,12 @@ function setMouseEventHandler() {
 
     });
 
-/*
+
     document.getElementById("slider").oninput = function () {
         lightTheta = document.getElementById("slider").value;
         lighting.light_position = vec4(4, 8, 4, 1);
         lighting.light_position = mult(rotateY(lightTheta), lighting.light_position);
     };
-*/
 
 }
 
@@ -134,7 +138,7 @@ function setPointerLockEventHandler() {
         mouseState.dely = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
 
         camera.motion();
-        //console.log(mouseState.delx + " " + mouseState.dely);
+        console.log(mouseState.delx + " " + mouseState.dely);
     };
 
     document.exitPointerLock = document.exitPointerLock ||
@@ -143,16 +147,13 @@ function setPointerLockEventHandler() {
     document.exitPointerLock();
 
     canvas.onclick = function () {
-        if (!mouseLockBool) {
-            canvas.requestPointerLock = canvas.requestPointerLock ||
-                    canvas.mozRequestPointerLock ||
-                    canvas.webkitRequestPointerLock;
 
-            canvas.requestPointerLock();
-        } else {
-            fired = true;
-            camera.fire(currentRoom);
-        }
+        canvas.requestPointerLock = canvas.requestPointerLock ||
+                canvas.mozRequestPointerLock ||
+                canvas.webkitRequestPointerLock;
+
+        canvas.requestPointerLock();
+
     };
 
     document.addEventListener('pointerlockchange', changeCallback);
@@ -168,19 +169,19 @@ function setKeyEventHandler() {
         document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
         if (c === "w" || c === "W") {
             forW = true;
-            //console.log("forW true");
+            console.log("forW true");
         } else if (c === "s" || c === "S") {
             bacS = true;
-            //console.log("bacS true");
+            console.log("bacS true");
         } else if (c === "a" || c === "A") {
             lefA = true;
-            //console.log("lefA true");
+            console.log("lefA true");
         } else if (c === "d" || c === "D") {
             rigD = true;
-            //console.log("rigD true");
-        } else if (e.keyCode === 16) {
+            console.log("rigD true");
+        } else if (e.keyCode === 16){
             shifRun = true;
-            //console.log("running!");
+            console.log("running!");
         }
     };
 
@@ -190,19 +191,19 @@ function setKeyEventHandler() {
         document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
         if (c === "w" || c === "W") {
             forW = false;
-            //console.log("forW false");
+            console.log("forW false");
         } else if (c === "s" || c === "S") {
             bacS = false;
-            //console.log("bacS false");
+            console.log("bacS false");
         } else if (c === "a" || c === "A") {
             lefA = false;
-            //console.log("lefA false");
+            console.log("lefA false");
         } else if (c === "d" || c === "D") {
             rigD = false;
-            //console.log("rigD false");
+            console.log("rigD false");
         } else if (e.keyCode === 16) {
             shifRun = false;
-            //console.log("walking?");
+            console.log("walking?");
         }
     };
 
