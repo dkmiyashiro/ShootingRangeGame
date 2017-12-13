@@ -1,12 +1,11 @@
-function TeleportRoom(z) {
+function StartTeleportRoom() {
     this.br = new BaseRoom();
-    this.z = z;
 }
 
-TeleportRoom.prototype.draw = function () {
+StartTeleportRoom.prototype.draw = function () {
 
     stack.push();
-    stack.multiply(translate(0, 0, this.z-5));
+    stack.multiply(translate(0, 0, 5));
     this.br.draw();
     stack.pop();
 
@@ -14,10 +13,10 @@ TeleportRoom.prototype.draw = function () {
 };
 
 
-TeleportRoom.prototype.drawBackWall = function () {
+StartTeleportRoom.prototype.drawBackWall = function () {
 
     stack.push();
-    stack.multiply(translate(0, 5, this.z-10));
+    stack.multiply(translate(0, 5, 10));
     stack.multiply(scalem(10, 10, .5));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);

@@ -3,11 +3,11 @@
 
 function Room1() {
     this.br = new BaseRoom();
-    this.tr = new TeleportRoom(-30);
-    this.light = new Lighting();
+    this.tr = new TeleportRoom(-25);
+    this.str = new StartTeleportRoom(5);
     this.targets = [];
-    var t1 = new Target(-2, 2, -12);
-    var t2 = new Target(2, 2, -14);
+    var t1 = new Target(-2, 2, -14);
+    var t2 = new Target(2, 2, -16);
     this.targets.push(t1);
     this.targets.push(t2);
 
@@ -22,6 +22,7 @@ Room1.prototype.draw = function () {
     stack.pop();
 
     this.tr.draw();
+    this.str.draw();
 
     this.drawBarriers();
     this.drawDoorWays();
