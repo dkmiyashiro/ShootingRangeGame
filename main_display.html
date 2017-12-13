@@ -164,7 +164,7 @@
         <table>
             <tr>
                 <td>
-                    <canvas id="gl-canvas" width="512" height="512" oncontextmenu="return false;">
+                    <canvas id="gl-canvas" width="700" height="700" oncontextmenu="return false;">
                         Oops ... your browser doesn't support the HTML5 canvas element
                     </canvas>
 
@@ -174,28 +174,20 @@
                     <div style = "background-color: LightGray">
                         <p> Keyboard Controls:</p>
                         <ul>
-                            <li>[r] ........ reset parameters</li>
-                            <li>[q/a] ........ move forward/backward</li>
-                            <li>[w/e] ........ turn left/right</li>
-                            <li>[s/d] ........ turn up/down</li>
-                            <li>[x/c] ........ roll left/right</li>
+                            <li>[w/s] .............. move forward/backward</li>
+                            <li>[a/d] .............. strafe left/right</li>
+                            <li>[Left Mouse Click] ....... shoot!</li>
                         </ul>
-                        <p> Mouse Controls:</p>
+                        <p> Rules:</p>
                         <ul>
-                            <li>[Right Mouse drag] ... pan up/down/left/right</li>
-                            <li>[Middle Mouse drag] .. zoom in/out</li>
-                            <li>[Middle Mouse wheel] . zoom in/out</li>
-                            <li>[Left Mouse drag] .... tumble about origin</li>
+                            <li>Shoot the cube to start the room!</li>
+                            <li>Shoot all the targets in the room!</li>
+                            <li>Once cleared, head to the teleporter!</li>
                         </ul> </div>
-                    <div id="keypress"><b>Key pressed:</b> </div>
-                    <div id="mouseAction"><b>Action:</b> </div>
-                    <div id="mouseState"><b>Mouse State:</b></div>
+                    <div id="currenttime"><b>Current Time:</b> </div>
+                    <div id="score"><b>Score:</b> </div>
                 </td> </tr>
         </table>
-
-        <p id="currenttime">Hello I am time</p>
-        <p> </p>
-        <p id="score">Hello I am score</p>
 
     </body>
 </html>

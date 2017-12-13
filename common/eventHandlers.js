@@ -165,7 +165,7 @@ function setKeyEventHandler() {
     window.onkeydown = function (e) {
         var c = String.fromCharCode(e.keyCode);
         //camera.keyAction(c);
-        document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
+      //  document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
         if (c === "w" || c === "W") {
             forW = true;
             //console.log("forW true");
@@ -187,7 +187,7 @@ function setKeyEventHandler() {
     window.onkeyup = function (e) {
         var c = String.fromCharCode(e.keyCode);
         //camera.keyAction(c);
-        document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
+      //  document.getElementById("keypress").innerHTML = "<b>Key pressed:</b> " + c + "<br>";
         if (c === "w" || c === "W") {
             forW = false;
             //console.log("forW false");
