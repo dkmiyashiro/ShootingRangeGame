@@ -3,6 +3,8 @@
 var canvas;       // HTML 5 canvas
 var gl;           // webgl graphics context
 
+var started = false;
+
 var vPosition;    // shader variable attrib location for vertices
 var vColor;       // shader variable attrib location for color
 var vNormal;
@@ -23,14 +25,17 @@ var stripes;
 var uTexture;
 var uColorMode;
 
-var shitangle=0;
-
 var lighting = new Lighting();
 var camera = new Camera();
 var stack = new MatrixStack();
 
 var room1 = new Room1();
+var room2 = new Room2();
+var room3 = new Room3();
 var currentRoom = room1;
+
+var startCube = new CollisionBox(vec3(0,.505,2),.5);
+var shitangle=0;
 
 window.onload = function init()
 {
@@ -85,14 +90,14 @@ function shaderSetup() {
     uModel_view = gl.getUniformLocation(program, "uModel_view");  // model-view matrix
 }
 
-function render()
-{
+function render(){
+
     camera.movement();
 
     if(shitangle<360){
-        shitangle+=1;
+          shitangle+=1;
     } else if (shitangle === 360){
-        shitangle = 0;
+          shitangle = 0;
     }
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -110,7 +115,6 @@ function render()
 
     stack.clear();
 
-
     stack.push();
     gl.uniform1i(uColorMode, 2);
     stack.multiply(translate(.4,-.4,-1,1));
@@ -119,22 +123,52 @@ function render()
     Gun.draw(0);
     stack.pop();
 
-    stack.multiply(viewMat);
+    stack.multiply(viewMat); //draw everything after this!!!!
 
-    stack.push();
-    stack.multiply(rotateY(shitangle));
-    stack.multiply(translate(0,.505,0));
-    gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
-    gl.uniform4fv(uColor, vec4(1.0, 1.0, 1.0, 1.0));  // set color to green
-    Shapes.drawPrimitive(Shapes.cube);
-    stack.pop();
+    if(!started){ //this just handles the color of the starting cube
+      gl.uniform1i(uColorMode, 2);
+      if(currentRoom===room1){
+      gl.uniform4fv(uColor, vec4(0.0, 1.0, 0.0, 1.0));
+    }else if(currentRoom===room2){
+      gl.uniform4fv(uColor, vec4(1.0, 1.0, 0.0, 1.0));
+    }else if(currentRoom===room3){
+      gl.uniform4fv(uColor, vec4(1.0, 0.0, 0.0, 1.0));
+      }
 
- //gl.uniform1i(uColorMode, 2);
-    room1.draw();
+      stack.push();
+      stack.multiply(translate(0,.505,2));
+      stack.multiply(rotateY(shitangle));
+      gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
+      Shapes.drawPrimitive(Shapes.cube);
+      stack.pop();
+    }else{
+        clearCheck();
+    }
 
-
+    currentRoom.draw();
     lighting.draw();
-
     window.requestAnimFrame(render);
 
+}
+
+clearCheck = function(){
+    if(currentRoom.tr.cleared){
+      switch(currentRoom){
+        case room1:
+        if(-1<camera.eye[0]&&camera.eye[0]<1&&-32<camera.eye[2]&&camera.eye[2]<-28){
+            camera.reset();
+            started = false;
+            currentRoom = room2;
+        }
+        break;
+
+        case room2:
+        if(-1<camera.eye[0]&&camera.eye[0]<1&&-56<camera.eye[2]&&camera.eye[2]<-52){
+            camera.reset();
+            started = false;
+            currentRoom = room3;
+          }
+        break;
+      }
+    }
 }

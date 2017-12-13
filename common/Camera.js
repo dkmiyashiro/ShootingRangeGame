@@ -20,8 +20,6 @@ function Camera() {
     this.viewRotation;  // rotational part of matrix that transforms between World and Camera coord
     this.calcUVN();  // initializes viewRotation
 
-    this.camBoundBox = new CollisionBox(vec3(0, 10, 1), 1, 1, 1);
-
 }
 
 /**
@@ -164,16 +162,22 @@ Camera.prototype.movement = function () {
 };
 
 Camera.prototype.fire = function (room) {
+  if(started){
     for (var i = 0; i < room.targets.length; i++) {
-
         if (collideSphere(this.eye, this.viewRotation[2], room.targets[i].hitbox)) {
             room.targets[i].hit();
             if (room.targets[i].destroyed) {
                 room.targets.splice(i, 1);
             }
-        } else {
-            //console.log("miss "+i);
+            if(room.targets.length===0){
+                room.tr.cleared = true;
+            }
+          }
         }
-        //console.log(room.targets[i]);
-    }
+        console.log(this.eye);
+      } else {
+        if(collideSphere(this.eye, this.viewRotation[2], startCube)){
+          started=true;
+        }
+      }
 };

@@ -1,9 +1,9 @@
 
 /* global stack, Shapes, uModel_view, gl, concrete, uColorMode */
 
-function Room1() {
+function Room2() {
     this.br = new BaseRoom();
-    this.tr = new TeleportRoom(-25,1);
+    this.tr = new TeleportRoom(-50,2);
     this.str = new StartTeleportRoom(5);
 
     this.cleared = false;
@@ -16,16 +16,16 @@ function Room1() {
 
 }
 
-Room1.prototype.draw = function () {
+Room2.prototype.draw = function () {
 
     stack.push();
-    stack.multiply(translate(0, 0, -12.5));
-    stack.multiply(scalem(2, 1.0, 2.5));
+    stack.multiply(translate(0, 0, -25));
+    stack.multiply(scalem(4, 1.0, 5));
     this.br.draw();
     stack.pop();
 
-    this.tr.draw(); //draws the teleport room
-    this.str.draw(); //draws the starting room
+    this.tr.draw();
+    this.str.draw();
 
     this.drawBarriers();
     this.drawDoorWays();
@@ -36,7 +36,7 @@ Room1.prototype.draw = function () {
     this.drawTargets();
 };
 
-Room1.prototype.drawBarriers = function () {
+Room2.prototype.drawBarriers = function () {
     stack.push();
     stack.multiply(translate(-6.5, 1.25, -17));
     stack.multiply(scalem(7, 2.5, .5));
@@ -52,31 +52,31 @@ Room1.prototype.drawBarriers = function () {
     stack.pop();
 };
 
-Room1.prototype.drawDoorWays = function () {
+Room2.prototype.drawDoorWays = function () {
     stack.push();
-    stack.multiply(translate(-5.75, 5, -25));
-    stack.multiply(scalem(8.5, 10, .5));
+    stack.multiply(translate(-10.75, 5, -50));
+    stack.multiply(scalem(18.5, 10, .5));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
 
     stack.push();
-    stack.multiply(translate(0, 7.5, -25));
+    stack.multiply(translate(0, 7.5, -50));
     stack.multiply(scalem(3, 5, .5));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
 
     stack.push();
-    stack.multiply(translate(5.75, 5, -25));
-    stack.multiply(scalem(8.5, 10, .5));
+    stack.multiply(translate(10.75, 5, -50));
+    stack.multiply(scalem(18.5, 10, .5));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
 
     stack.push();
-    stack.multiply(translate(-5.75, 5, 0));
-    stack.multiply(scalem(8.5, 10, .5));
+    stack.multiply(translate(-10.75, 5, 0));
+    stack.multiply(scalem(18.5, 10, .5));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
@@ -89,8 +89,8 @@ Room1.prototype.drawDoorWays = function () {
     stack.pop();
 
     stack.push();
-    stack.multiply(translate(5.75, 5, 0));
-    stack.multiply(scalem(8.5, 10, .5));
+    stack.multiply(translate(10.75, 5, 0));
+    stack.multiply(scalem(18.5, 10, .5));
     gl.uniformMatrix4fv(uModel_view, false, flatten(stack.top())); // set view transform
     Shapes.drawPrimitive(Shapes.cube);
     stack.pop();
@@ -98,7 +98,7 @@ Room1.prototype.drawDoorWays = function () {
 
 };
 
-Room1.prototype.drawTargets = function () {
+Room2.prototype.drawTargets = function () {
     if (this.targets.length > 0) {
         for (var i = 0; i < this.targets.length; i++) {
             this.targets[i].draw();
