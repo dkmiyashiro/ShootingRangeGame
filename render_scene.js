@@ -30,6 +30,7 @@ var camera = new Camera();
 var stack = new MatrixStack();
 
 var room1 = new Room1();
+var currentRoom = room1;
 
 window.onload = function init()
 {
@@ -107,7 +108,6 @@ function render()
 
     gl.uniform4fv(uColor, vec4(0.41, 0.41, 0.41, 1.0));
 
-
     stack.clear();
 
 
@@ -130,7 +130,6 @@ function render()
     stack.pop();
 
  //gl.uniform1i(uColorMode, 2);
-
     room1.draw();
 
 
