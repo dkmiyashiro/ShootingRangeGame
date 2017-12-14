@@ -96,20 +96,13 @@ function setMouseEventHandler() {
 
     });
 
-/*
-    document.getElementById("slider").oninput = function () {
-        lightTheta = document.getElementById("slider").value;
-        lighting.light_position = vec4(4, 8, 4, 1);
-        lighting.light_position = mult(rotateY(lightTheta), lighting.light_position);
-    };
-*/
-
 }
 
-
 /**
- * Key press event handlers. Actions are defined in the Camera class
- * @return {undefined}
+ * (Dolan (now deceased))
+ * The bane of my existence: PointerLock eventHandlers. All info
+ * regarding it can be found online in its API.
+ * @return {me, but dead}
  */
 
 function setPointerLockEventHandler() {
@@ -160,6 +153,10 @@ function setPointerLockEventHandler() {
     document.addEventListener('webkitpointerlockchange', changeCallback);
 
 }
+//(Dolan)
+//To make animation work with multiple keys being pressed at once,
+//the key event handlers instead change a boolean, which is checked
+//every frame.
 
 function setKeyEventHandler() {
     window.onkeydown = function (e) {

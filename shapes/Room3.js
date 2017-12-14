@@ -1,5 +1,11 @@
+//(Dolan)
 
 /* global stack, Shapes, uModel_view, gl, concrete, uColorMode */
+
+//Room3 used the same measurements as room1, but instead implemented two
+//different arrays. In the camera's fire() method, it checks to see if there is a
+//hidden targets array, and pulls from it. This lets the room draw each target
+//one at a time.
 
 function Room3() {
     this.br = new BaseRoom();

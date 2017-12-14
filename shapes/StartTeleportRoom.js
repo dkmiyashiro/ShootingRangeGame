@@ -1,3 +1,13 @@
+//(Made by Dolan for the quest of modularity)
+
+//Halfway through, I  had decided that modular levels that
+//only load one at a time (once the previous level was completed)
+//would be better. So I made this:
+
+//The StartTeleportRoom is where the player begins and will teleport back to
+//once the level is completed. It too uses the base room and custom sized
+//doorways.
+
 function StartTeleportRoom(z) {
     this.br = new BaseRoom();
     this.z = z;

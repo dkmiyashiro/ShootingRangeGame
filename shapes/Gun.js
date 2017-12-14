@@ -1,5 +1,5 @@
 /*
- All made by Dylan Miyashiro
+ All made by Dolan Miyashiro
  */
 
 /* global uModel_view, stack, gl, uColor, Shapes, recoilNum */

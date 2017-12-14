@@ -1,3 +1,10 @@
+//This was just a small thing I made to supplement
+//something that I feel should already be in a
+//library or something.
+
+//It's a timer based off of iteration (it calls itself 100 times per second)
+//and changes its ms, seconds, and minutes values accordingly.
+
 var timeKeeper;
 
 function Timer(arr) {

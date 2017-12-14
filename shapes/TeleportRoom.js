@@ -1,3 +1,11 @@
+//(Also made by Dolan in the quest for modularity)
+
+//The TeleportRoom is the "ending room" that opens up only
+//after one finishes the level. There is a pad which one can
+//step on to end the level. (The level only ends if all targets
+//have been cleared).
+
+
 function TeleportRoom(z,col) {
     this.br = new BaseRoom();
     this.z = z;

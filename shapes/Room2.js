@@ -1,6 +1,10 @@
 
 /* global stack, Shapes, uModel_view, gl, concrete, uColorMode */
 
+//Following the base of Room1, I (Dolan) resized the BaseRoom and
+//the doorways to make a much larger room with a few more targets.
+//Other than that, it's functionally the same.
+
 function Room2() {
     this.br = new BaseRoom();
     this.tr = new TeleportRoom(-50,2);

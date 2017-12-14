@@ -1,11 +1,15 @@
 /* global Shapes */
 
+//(Dolan)
+//Look at all of those variables. Many are needed for the shaders and Lighting.
+//I'll go over the ones I made as they come up.
+
 var canvas;       // HTML 5 canvas
 var gl;           // webgl graphics context
 
-var started = false;
-var supre = false;
-var misses =0;
+var started = false; //This checks to see if the level has started or not.
+var supre = false; //This was a testing variable that allowed me to instantly destroy a target
+var misses =0; //The number of misses which is used in scoring.
 
 var vPosition;    // shader variable attrib location for vertices
 var vColor;       // shader variable attrib location for color
@@ -17,7 +21,7 @@ var uModel_view;  //  shader uniform variable for model-view matrix
 
 var program;
 
-var checkerboard;
+var checkerboard; //all of this is the textures and stuff
 var milton;
 var target;
 var concrete;
@@ -27,15 +31,16 @@ var stripes;
 var uTexture;
 var uColorMode;
 
-var timer = new Timer();
+var timer = new Timer(); //Just a simple timer I made which can be found in Timer.js
 var lighting = new Lighting();
 var camera = new Camera();
 var stack = new MatrixStack();
 
+//Below is all of the rooms.
 var room1 = new Room1();
 var room2 = new Room2();
 var room3 = new Room3();
-var currentRoom = room1;
+var currentRoom = room1; //This variable chooses what room to render at any given time.
 
 var startCube = new CollisionBox(vec3(0,.505,2),.5);
 var shitangle=0;

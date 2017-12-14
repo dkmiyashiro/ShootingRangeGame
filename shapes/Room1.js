@@ -1,6 +1,11 @@
 
 /* global stack, Shapes, uModel_view, gl, concrete, uColorMode */
 
+//The first room created (as denoted by "Room1"). I (Dolan), tested out a few
+//methods for handling targets, and came up with handling them with an array.
+
+//This room only has two targets.
+
 function Room1() {
     this.br = new BaseRoom();
     this.tr = new TeleportRoom(-25,1);
@@ -51,6 +56,10 @@ Room1.prototype.drawBarriers = function () {
 };
 
 Room1.prototype.drawDoorWays = function () {
+    //This long draw method are the two doorways I was talking about. At first
+    //I thought I could use arithmetic, but it became clear that I needed to
+    //make slight adjustments through trial and error.
+
     stack.push();
     stack.multiply(translate(-5.75, 5, -25));
     stack.multiply(scalem(8.5, 10, .5));

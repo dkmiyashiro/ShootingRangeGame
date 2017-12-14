@@ -1,5 +1,8 @@
 /* global mouseState, forW, bacS, lefA, rigD, shifRun */
 
+//(Dolan)
+//All "custom methods" made by me. Yeeha
+
 /**
  * Contains all of the parameters needed for controlling the camera.
  * @return {Camera}
@@ -138,17 +141,18 @@ Camera.prototype.tumble = function (rx, ry) {
 
 };
 
-Camera.prototype.movement = function () {
 
-    var speed = shifRun ? 0.8 : 0.6;
+Camera.prototype.movement = function () { //This handles all character movement
 
-    var forwardDirection = this.viewRotation[2];
+    var speed = shifRun ? 0.8 : 0.6; //If "shift" is held, the character will run faster
+
+    var forwardDirection = this.viewRotation[2]; // similar to the scrolling, the camera will go further down its "u" vector
     var forwardScale = 0.0;
     forwardScale += bacS ? 0.1 : 0.0;
     forwardScale -= forW ? 0.1 : 0.0;
     var addMe1 = scale(forwardScale * speed, forwardDirection);
 
-    var strafeDirection = this.viewRotation[0];
+    var strafeDirection = this.viewRotation[0]; //same here, but with strafing
     var strafeScale = 0.0;
     strafeScale += rigD ? 0.1 : 0.0;
     strafeScale -= lefA ? 0.1 : 0.0;
@@ -162,6 +166,9 @@ Camera.prototype.movement = function () {
 };
 
 Camera.prototype.fire = function (room) {
+  //This fires whenever you click, and is what checks
+  //for collisions for the targets. To see how collisions are calculated
+  //check "CollisionBox.js".
   var hitatall = false;
   if(started){
     for (var i = 0; i < room.targets.length; i++) {
@@ -175,6 +182,7 @@ Camera.prototype.fire = function (room) {
             if (room.targets[i].destroyed) {
                 room.targets.splice(i, 1);
             }
+            //The following is what allows room3 to generate one target at a time.
             if(room ===room3&&room.targets.length===0&&room.hiddenTargets.length>0){
                 room.targets.push(room.hiddenTargets[0]);
                 room.hiddenTargets.splice(0,1);
@@ -186,10 +194,14 @@ Camera.prototype.fire = function (room) {
           }
         }
         if(!hitatall){
+          //This calculates the number of misses for scoring
           misses++;
         }
       } else {
         if(collideSphere(this.eye, this.viewRotation[2], startCube)){
+          //The "started" variable is used to mark when the camera should check
+          //for targets collision. Otherwise, it will only look to see if the
+          //cube has been shot.
           started=true;
           timer.start();
         }

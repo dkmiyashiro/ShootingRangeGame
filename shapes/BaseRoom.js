@@ -1,5 +1,10 @@
 /* global stack, concrete */
 
+//This one is just a shell of a room that's scalable and stuff.
+//Each of the other rooms have their own scaled BaseRoom.
+//It's missing 2 walls, which have to be customized so that all
+//doorways are the same size.
+
 function BaseRoom(){
 }
 
