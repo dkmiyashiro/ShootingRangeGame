@@ -1,8 +1,19 @@
 /* global Shapes */
 
-//(Dolan)
-//Look at all of those variables. Many are needed for the shaders and Lighting.
-//I'll go over the ones I made as they come up.
+//(Dolan, December 15, 2017)
+//This program/website is a short game of shoot the targets.
+//One will enter a room and shoot all the targets in it before moving on
+//to the next. There are a total of three rooms, although I imagine
+//automatic level generation wouldn't be difficult. The final score
+//is given based on time taken to complete all three rooms and accuracy.
+
+//For reference, all of the rooms, target, and gun classes are in
+//the shapes folder. The base geometry for these objects are also
+//in the shapes folder. Almost everything that handles background
+//calculations are in the common folder (the camera, collision methods,
+//the timer, event handlers, etc.). Textures are in the textures file (wow).
+//Finally, this file holds the render() method which calls every frame,
+//as well as some other small calculations.
 
 var canvas;       // HTML 5 canvas
 var gl;           // webgl graphics context
